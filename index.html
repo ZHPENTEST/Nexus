@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="author" content="Zharif Eirfan">
+    <title>Zharif Eirfan // Nexus</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+    // Zharif Eirfan Auth-Guard
+    (function() {
+        const isAuthenticated = localStorage.getItem('nexus_auth_token');
+        
+        // If no token exists, redirect to login immediately
+        if (!isAuthenticated && !window.location.href.includes('login.html')) {
+            window.location.href = 'login.html';
+        }
+    })();
+
+    function logout() {
+    // Wipe the session
+    localStorage.removeItem('nexus_auth_token');
+    
+    // Smooth exit animation
+    document.body.style.opacity = "0";
+    document.body.style.filter = "blur(20px)";
+    
+    setTimeout(() => {
+        window.location.href = "login.html";
+    }, 500);
+}
+</script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Space Grotesk', 'sans-serif'] },
+                    colors: {
+                        black: '#050505',
+                        neutral: {
+                            950: '#0a0a0a',
+                            900: '#121212',
+                            800: '#1a1a1a',
+                            700: '#262626',
+                            600: '#333333',
+                            500: '#737373',
+                            400: '#a3a3a3'
+                        },
+                        accent: '#ffffff',
+                    },
+                    letterSpacing: {
+                        'ultra-tight': '-0.06em',
+                        'mega-wide': '0.5em',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #fff; overflow-x: hidden; }
+        
+        /* Premium Grain Overlay */
+        .noise::before {
+            content: ""; position: fixed; inset: 0; width: 100%; height: 100%;
+            background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05; z-index: 99; pointer-events: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+        /* Animation Classes */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .line-grow { width: 0; transition: width 1.5s ease-in-out; }
+        .active .line-grow { width: 100%; }
+
+        /* Smooth Hover Effects */
+        .bento-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .bento-card:hover { border-color: rgba(255,255,255,0.2); background-color: #0d0d0d; }
+
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee { animation: marquee 20s linear infinite; }
+
+        .bento-card {
+  box-shadow: 
+    0 1px 1px rgba(0,0,0,0.11), 
+    0 2px 2px rgba(0,0,0,0.11), 
+    0 4px 4px rgba(0,0,0,0.11), 
+    0 8px 8px rgba(0,0,0,0.11), 
+    0 16px 16px rgba(0,0,0,0.11);
+  @apply border-white/[0.03];
+}
+
+/* Prevent layout shift */
+.bento-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 500px;
+}
+    </style>
+</head>
+<body class="noise antialiased selection:bg-white selection:text-black">
+
+    <div class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] h-16 bg-neutral-900/80 backdrop-blur-2xl border border-white/10 rounded-full z-[200] flex items-center justify-around px-6 shadow-2xl">
+    <a href="#core" class="flex flex-col items-center gap-1">
+        <div class="w-1 h-1 bg-white rounded-full mb-1"></div>
+        <span class="text-[8px] uppercase tracking-widest font-bold text-white">Home</span>
+    </a>
+    <a href="#logic" class="flex flex-col items-center gap-1">
+        <span class="text-[8px] uppercase tracking-widest font-bold text-neutral-500">Tasks</span>
+    </a>
+    <div onclick="navigateToLogin()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center border-4 border-black -translate-y-4 shadow-xl">
+        <span class="text-black text-[10px] font-bold">ZE</span>
+    </div>
+    <a href="#manifesto" class="flex flex-col items-center gap-1">
+        <span class="text-[8px] uppercase tracking-widest font-bold text-neutral-500">Core</span>
+    </a>
+    <button onclick="activateMemeMode()" class="flex flex-col items-center gap-1">
+        <span class="text-[8px] uppercase tracking-widest font-bold text-neutral-500">Meme</span>
+    </button>
+</div>
+
+    <div class="fixed top-[-15%] left-1/2 -translate-x-1/2 w-[90%] h-[500px] bg-white/[0.03] blur-[150px] pointer-events-none"></div>
+
+    <nav class="flex justify-between items-center px-6 md:px-12 py-10 sticky top-0 z-[100] backdrop-blur-xl border-b border-white/5">
+        <div class="flex flex-col">
+            <span class="text-2xl font-bold tracking-ultra-tight uppercase italic leading-none">Zharif Eirfan.</span>
+            <span class="text-[8px] tracking-mega-wide text-neutral-500 uppercase mt-1">Coding Is my Truely Meme</span>
+        </div>
+        
+        <div class="hidden lg:flex items-center space-x-12 text-[10px] uppercase tracking-[0.3em] font-semibold text-neutral-400">
+            <a href="#core" class="hover:text-white transition-colors">01. Core</a>
+            <a href="#logic" class="hover:text-white transition-colors">02. Logic</a>
+            <a href="#manifesto" class="hover:text-white transition-colors">03. Manifesto</a>
+            <a href="#meme" class="hover:text-white transition-colors">04. Meme</a>
+        </div>
+
+        <div class="flex items-center gap-6">
+            <div class="hidden sm:block text-[10px] text-neutral-600 uppercase tracking-widest italic">EST. 2026</div>
+            <button class="bg-white text-black text-[10px] px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:invert transition-all duration-500">
+                Init Project
+            </button>
+        </div>
+    </nav>
+
+    <nav class="flex justify-between items-center px-6 md:px-12 py-8 sticky top-0 z-[100] bg-black/50 backdrop-blur-2xl border-b border-white/5">
+    
+    <div class="flex items-center gap-4">
+        <div class="text-xl font-bold tracking-tighter uppercase italic">Zharif.</div>
+        <div class="hidden sm:block h-4 w-[1px] bg-neutral-800"></div>
+        <span class="hidden sm:block text-[8px] tracking-[0.3em] text-neutral-600 uppercase">Nexus Core</span>
+    </div>
+
+    <div class="flex items-center gap-6">
+        <div class="hidden lg:flex items-center gap-8 text-[10px] uppercase tracking-widest text-neutral-500 font-medium">
+            <a href="#" class="hover:text-white transition">Engine</a>
+            <a href="#" class="hover:text-white transition">Archive</a>
+        </div>
+
+        <div class="h-8 w-[1px] bg-white/10 mx-2"></div>
+
+        <button onclick="navigateToLogin()" class="group flex items-center gap-3 pl-2 pr-1 py-1 rounded-full bg-neutral-900/50 border border-white/5 hover:border-white/20 transition-all">
+            <span class="text-[9px] font-bold uppercase tracking-widest pl-2 hidden md:block">Zharif Eirfan</span>
+            <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center text-[10px] font-black group-hover:scale-95 transition-transform">
+                ZE
+            </div>
+        </button>
+    </div>
+</nav>
+
+<section class="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 pb-40">
+    
+    <div class="reveal bento-card md:col-span-2 lg:col-span-8 bg-neutral-950 border border-white/5 p-8 md:p-16 rounded-[3rem] h-[500px] md:h-[600px] flex flex-col justify-between">
+        <h3 class="text-4xl font-bold tracking-tighter italic">01 // Logic</h3>
+        <div class="w-full h-px bg-neutral-800"></div>
+    </div>
+
+    <div class="reveal bento-card md:col-span-1 lg:col-span-4 bg-white text-black p-8 md:p-12 rounded-[3rem] flex flex-col justify-between">
+        <div class="text-6xl font-bold tracking-tighter">NO <br> TRASH.</div>
+        <p class="text-[10px] font-bold uppercase tracking-widest">Mobile + Tablet Ready</p>
+    </div>
+
+    <div class="reveal bento-card hidden md:flex lg:col-span-4 bg-neutral-900 border border-white/5 p-12 rounded-[3rem] flex-col justify-center text-center">
+        <span class="text-neutral-500 text-[10px] uppercase tracking-widest mb-4">Meme Engine Status</span>
+        <div class="text-2xl font-bold tracking-tighter">OPTIMIZED.</div>
+    </div>
+</section>
+
+    <main>
+        <section class="max-w-7xl mx-auto px-6 md:px-12 pt-32 pb-60 relative">
+            <div class="reveal active">
+                <div class="flex items-center gap-4 mb-8">
+                    <span class="text-[10px] uppercase tracking-[0.4em] text-neutral-500">Welcome to the Nexus</span>
+                    <div class="h-[1px] flex-grow bg-neutral-900 line-grow"></div>
+                </div>
+                
+                <header class="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 pt-24 md:pt-40 pb-20 md:pb-40">
+    <div class="reveal active flex flex-col items-center md:items-start text-center md:text-left">
+        <h1 class="text-[clamp(3.5rem,12vw,12rem)] font-bold tracking-ultra-tight leading-[0.8] mb-12">
+            ZHARIF <br> 
+            <span class="text-neutral-900 outline-text block md:inline" style="-webkit-text-stroke: 1px #262626; color: transparent;">EIRFAN.</span>
+        </h1>
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between w-full gap-10">
+            <p class="text-neutral-500 text-lg md:text-2xl font-light max-w-xl leading-snug tracking-tighter">
+                Engineering digital experiences for the next generation. 
+                <span class="text-white block md:inline">Coding Is my Truely Meme.</span>
+            </p>
+            <div class="hidden md:flex items-center gap-4">
+                <span class="text-[10px] uppercase tracking-widest text-neutral-600 italic">Responsive Nexus Core v4.0</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
+                    <p class="text-neutral-500 text-2xl font-light leading-snug tracking-tighter">
+                        Rejecting the trash aesthetics of the modern web. We build for performance, 
+                        minimalism, and the absolute edge of digital design.
+                    </p>
+                    <div class="flex flex-col justify-end items-start md:items-end gap-4">
+                        <span class="text-4xl font-bold italic">"Coding Is my Truely Meme"</span>
+                        <span class="text-xs uppercase tracking-widest text-neutral-600">— The Zharif Philosophy</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="border-y border-white/5 py-10 overflow-hidden whitespace-nowrap bg-neutral-950/50">
+            <div class="flex animate-marquee text-[10px] uppercase tracking-[1em] font-bold text-neutral-700">
+                <span class="mx-10">Zharif Eirfan</span>
+                <span class="mx-10">Coding Is my Truely Meme</span>
+                <span class="mx-10">Zharif Eirfan</span>
+                <span class="mx-10">Coding Is my Truely Meme</span>
+                <span class="mx-10">Zharif Eirfan</span>
+                <span class="mx-10">Coding Is my Truely Meme</span>
+            </div>
+        </section>
+
+        <section id="core" class="max-w-7xl mx-auto px-6 md:px-12 py-40">
+            <div class="reveal grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-6 h-auto md:h-[1000px]">
+                
+                <div class="bento-card md:col-span-8 md:row-span-1 bg-neutral-900/30 border border-white/5 p-12 rounded-[3rem] flex flex-col justify-between group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-8">
+                        <div class="w-4 h-4 rounded-full bg-white animate-pulse"></div>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-neutral-600 uppercase tracking-widest mb-4 block">System 01</span>
+                        <h2 class="text-5xl font-bold tracking-tighter italic leading-none">THE ARCHITECTURE.</h2>
+                    </div>
+                    <p class="text-neutral-500 max-w-sm">No bloated libraries. No trash frameworks. Just raw, optimized execution by Zharif Eirfan.</p>
+                </div>
+
+                <div class="bento-card md:col-span-4 bg-white text-black p-12 rounded-[3rem] flex flex-col justify-between group">
+                    <div class="text-6xl font-bold tracking-tighter leading-none">NO <br> TRASH.</div>
+                    <p class="font-bold uppercase text-[10px] tracking-widest">Standardized Excellence</p>
+                </div>
+
+                <div class="bento-card md:col-span-5 bg-neutral-950 border border-white/5 p-12 rounded-[3rem] flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="h-[1px] w-full bg-neutral-800"></div>
+                        <div class="h-[1px] w-2/3 bg-neutral-800"></div>
+                        <div class="h-[1px] w-1/3 bg-neutral-800"></div>
+                    </div>
+                    <h3 class="text-2xl font-bold tracking-tighter italic uppercase">Coding Is my Truely Meme</h3>
+                </div>
+
+                <div class="bento-card md:col-span-7 bg-neutral-900/30 border border-white/5 p-12 rounded-[3rem] overflow-hidden relative">
+                    <div class="relative z-10 h-full flex flex-col justify-between">
+                        <h3 class="text-4xl font-bold tracking-tighter">DATA VISUALIZATION</h3>
+                        <div class="flex gap-2">
+                            <div class="h-24 w-4 bg-neutral-800 rounded-full"></div>
+                            <div class="h-32 w-4 bg-white rounded-full"></div>
+                            <div class="h-16 w-4 bg-neutral-700 rounded-full"></div>
+                            <div class="h-28 w-4 bg-neutral-600 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="manifesto" class="max-w-7xl mx-auto px-6 md:px-12 py-40 border-t border-white/5">
+            <div class="reveal">
+                <span class="text-[10px] uppercase tracking-widest text-neutral-600 mb-10 block">Manifesto // Zharif Eirfan</span>
+                <p class="text-[clamp(2rem,6vw,5rem)] font-bold tracking-ultra-tight leading-[0.9] text-neutral-200">
+                    If the code doesn't spark joy, it's trash. If the UI looks like a template, it's trash. 
+                    We build <span class="text-neutral-800">with intention.</span> We design <span class="text-neutral-800">with precision.</span> 
+                    The meme is the reality.
+                </p>
+            </div>
+        </section>
+
+        <section id="logic" class="max-w-5xl mx-auto px-6 py-40">
+            <div class="reveal bg-neutral-950 border border-white/10 rounded-[4rem] p-12 md:p-20 shadow-2xl">
+                <h3 class="text-3xl font-bold tracking-tighter mb-12 flex items-center gap-4">
+                    <span class="w-3 h-3 bg-white rounded-full"></span>
+                    Nexus Task Engine
+                </h3>
+                
+                <div class="space-y-6">
+                    <div class="flex gap-4">
+                        <input type="text" id="taskInput" placeholder="Initialize New Logic..." class="flex-grow bg-neutral-900 border border-white/5 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-white/20 transition-all">
+                        <button onclick="addTask()" class="bg-white text-black px-8 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest hover:scale-105 transition">Add</button>
+                    </div>
+                    
+                    <ul id="taskList" class="space-y-3">
+                        </ul>
+                </div>
+                <p class="mt-8 text-[10px] text-neutral-700 uppercase tracking-widest text-center">Controlled by Zharif Eirfan Core</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-neutral-950 pt-40 pb-20 px-6 md:px-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-20 mb-40">
+                <div>
+                    <h2 class="text-8xl font-bold tracking-ultra-tight mb-8 leading-none">ZHARIF <br> EIRFAN.</h2>
+                    <p class="text-neutral-500 uppercase tracking-widest text-xs">Coding Is my Truely Meme // 2026</p>
+                </div>
+                <div class="grid grid-cols-2 gap-20">
+                    <div class="space-y-4">
+                        <span class="text-[10px] text-neutral-700 uppercase tracking-widest">Connect</span>
+                        <ul class="text-sm space-y-2">
+                            <li><a href="#" class="hover:text-neutral-400 transition">GitHub</a></li>
+                            <li><a href="#" class="hover:text-neutral-400 transition">Twitter</a></li>
+                            <li><a href="#" class="hover:text-neutral-400 transition">Dribbble</a></li>
+                        </ul>
+                    </div>
+                    <div class="space-y-4">
+                        <span class="text-[10px] text-neutral-700 uppercase tracking-widest">Legal</span>
+                        <ul class="text-sm space-y-2">
+                            <li><a href="#" class="hover:text-neutral-400 transition">Privacy</a></li>
+                            <li><a href="#" class="hover:text-neutral-400 transition">Terms</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-white/5 gap-6">
+                <span class="text-[10px] text-neutral-700 uppercase tracking-widest italic">Built with Zero Trash Policy</span>
+                <span class="text-[10px] text-neutral-500 uppercase tracking-[0.5em]">Zharif Eirfan © 2026</span>
+                <span class="text-[10px] text-neutral-700 uppercase tracking-widest italic leading-none">Coding Is my Truely Meme</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Console Signature
+        console.log("%c Zharif Eirfan %c Coding Is my Truely Meme ", "color: white; background: black; padding: 5px; font-weight: bold;", "color: black; background: white; padding: 5px;");
+
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Task Engine Logic
+        let tasks = JSON.parse(localStorage.getItem('zharifTasks')) || [
+            { id: 1, text: "Eliminate trash code", done: true },
+            { id: 2, text: "Master the Noir aesthetic", done: false }
+        ];
+
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            if (!input.value) return;
+            tasks.push({ id: Date.now(), text: input.value, done: false });
+            input.value = '';
+            renderTasks();
+        }
+
+        function renderTasks() {
+            const list = document.getElementById('taskList');
+            localStorage.setItem('zharifTasks', JSON.stringify(tasks));
+            list.innerHTML = tasks.map(t => `
+                <li class="flex items-center justify-between p-5 bg-neutral-900/50 border border-white/5 rounded-2xl group hover:border-white/20 transition-all">
+                    <span class="text-sm ${t.done ? 'line-through text-neutral-700' : 'text-neutral-300'}">${t.text}</span>
+                    <button onclick="toggleTask(${t.id})" class="text-[10px] font-bold uppercase tracking-widest ${t.done ? 'text-neutral-600' : 'text-white hover:text-neutral-400'} transition-colors">
+                        ${t.done ? '[ Done ]' : '[ Mark ]'}
+                    </button>
+                </li>
+            `).join('');
+        }
+
+        function toggleTask(id) {
+            tasks = tasks.map(t => t.id === id ? {...t, done: !t.done} : t);
+            renderTasks();
+        }
+
+        renderTasks();
+
+        // The "Meme" Easter Egg Logic
+let inputBuffer = "";
+const secretCode = "MEME";
+
+document.addEventListener('keydown', (e) => {
+    inputBuffer += e.key.toUpperCase();
+    inputBuffer = inputBuffer.slice(-secretCode.length);
+
+    if (inputBuffer === secretCode) {
+        activateMemeMode();
+    }
+});
+
+function activateMemeMode() {
+    console.log("%c !!! MEME MODE ACTIVATED BY ZHARIF EIRFAN !!! ", "background: #fff; color: #000; font-size: 20px; font-weight: bold;");
+    
+    // 1. Invert the whole site colors
+    document.documentElement.classList.toggle('invert');
+    
+    // 2. Make the Hero text shake
+    const hero = document.querySelector('h1');
+    hero.classList.add('animate-bounce');
+    
+    // 3. Temporary alert for the user
+    const toast = document.createElement('div');
+    toast.className = "fixed bottom-10 left-1/2 -translate-x-1/2 bg-white text-black px-10 py-4 rounded-full font-bold z-[1000] text-[10px] tracking-widest uppercase shadow-2xl animate-pulse";
+    toast.innerText = "CODING IS MY TRUELY MEME // SYSTEM OVERRIDE";
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        document.documentElement.classList.remove('invert');
+        hero.classList.remove('animate-bounce');
+        toast.remove();
+    }, 5000);
+}
+
+function navigateToLogin() {
+    // 1. Visual Feedback
+    document.body.style.transition = "opacity 0.5s ease";
+    document.body.style.opacity = "0";
+
+    // 2. Mocking the redirect (Change 'login.html' to your actual file)
+    setTimeout(() => {
+        console.log("Redirecting to Login Engine...");
+        window.location.href = "login.html"; 
+    }, 500);
+}
+
+const deviceEngine = {
+    init() {
+        const ua = navigator.userAgent;
+        let deviceType = "Desktop";
+
+        if (/tablet|ipad|playbook|silk/i.test(ua)) {
+            deviceType = "Tablet";
+        } else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+            deviceType = "Mobile";
+        }
+
+        this.updateUI(deviceType);
+    },
+
+    updateUI(type) {
+        // Find the greeting element in your Hero or Nav
+        const statusElement = document.querySelector('.device-status');
+        if (statusElement) {
+            statusElement.innerText = `NEXUS ${type.toUpperCase()} CORE v4.0`;
+        }
+        
+        console.log(`%c Zharif Eirfan Engine: ${type} Mode Active `, "color: #000; background: #fff; font-weight: bold;");
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => deviceEngine.init());
+
+// Anti-Trash Right-Click Guard
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    
+    // Create a temporary "No" text at mouse position
+    const msg = document.createElement('div');
+    msg.innerText = "NICE TRY, TRASH. - ZE";
+    msg.style.position = 'fixed';
+    msg.style.left = e.clientX + 'px';
+    msg.style.top = e.clientY + 'px';
+    msg.className = "text-[10px] font-bold text-red-500 bg-black px-2 py-1 rounded border border-red-500 z-[99999] animate-bounce";
+    document.body.appendChild(msg);
+
+    setTimeout(() => msg.remove(), 1000);
+});
+    </script>
+</body>
+</html>

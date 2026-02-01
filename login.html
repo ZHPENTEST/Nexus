@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zharif Eirfan // Terminal Entry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #ff0000; }
+        body { background: #050505; color: white; font-family: 'Space Grotesk', sans-serif; overflow: hidden; margin: 0; }
+        #failOverlay {
+            display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.98);
+            z-index: 99999; align-items: center; justify-content: center; flex-direction: column; backdrop-filter: blur(20px);
+        }
+        .massive-x { font-size: 70vh; font-weight: 900; color: var(--accent); line-height: 0.8; text-shadow: 0 0 80px rgba(255, 0, 0, 0.6); user-select: none; font-style: italic; }
+        @keyframes shake { 0%, 100% { transform: translate(0, 0); } 10%, 30%, 50%, 70%, 90% { transform: translate(-10px, 0); } 20%, 40%, 60%, 80% { transform: translate(10px, 0); } }
+        .vibrate { animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both; }
+        .glass { background: rgba(15, 15, 15, 0.7); border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-6">
+
+    <div id="failOverlay"><div class="massive-x">X</div><div class="text-red-500 font-bold tracking-[2em] uppercase mt-[-40px] text-[10px] md:text-sm">Access Denied</div></div>
+
+    <div id="loginBox" class="glass w-full max-w-md p-10 md:p-14 rounded-[3rem] transition-all duration-500 shadow-2xl">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold italic tracking-tighter uppercase">Nexus Entry</h2>
+            <p class="text-neutral-600 text-[9px] uppercase tracking-widest mt-2 italic">Coding Is my Truely Meme</p>
+        </div>
+
+        <form id="authForm" class="space-y-6">
+            <div class="space-y-2">
+                <label class="text-[9px] uppercase tracking-[0.3em] text-neutral-500 ml-2">Regional Phone (+60 / +62)</label>
+                <div class="relative">
+                    <input type="tel" id="phone" required class="w-full bg-black/50 border border-white/5 rounded-2xl px-6 py-4 text-sm outline-none transition-all focus:border-white/20" placeholder="+60123456789">
+                    <div id="countryBadge" class="absolute right-4 top-1/2 -translate-y-1/2 text-[9px] font-bold text-neutral-600 border border-neutral-800 px-2 py-1 rounded">??</div>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-[9px] uppercase tracking-[0.3em] text-neutral-500 ml-2">Access Token</label>
+                <input type="password" id="pass" required class="w-full bg-black/50 border border-white/5 rounded-2xl px-6 py-4 text-sm outline-none transition-all focus:border-white/20 text-center tracking-[0.5em]" placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="w-full bg-white text-black font-bold py-5 rounded-2xl text-[10px] uppercase tracking-[0.3em] hover:invert transition-all duration-500 active:scale-95 mt-4">Authorize Access</button>
+        </form>
+
+        <div class="mt-8 text-center">
+            <a href="https://wa.me/601163903915?text=NEXUS%20CORE%20SOS:%20I%20lost%20my%20access%20token.%20Requesting%20manual%20override." 
+               target="_blank"
+               class="text-[9px] text-neutral-700 hover:text-red-500 transition-all duration-300 uppercase tracking-widest flex items-center justify-center gap-2">
+               <span class="w-1 h-1 bg-red-500 rounded-full animate-pulse"></span>
+               Forgot Registry? Contact Architect
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('authForm');
+        const overlay = document.getElementById('failOverlay');
+        const loginBox = document.getElementById('loginBox');
+        const phoneInput = document.getElementById('phone');
+        const countryBadge = document.getElementById('countryBadge');
+        const passInput = document.getElementById('pass');
+
+        phoneInput.addEventListener('input', (e) => {
+            const val = e.target.value.trim();
+            if (val.startsWith('+60')) { countryBadge.innerText = "MY 🇲🇾"; countryBadge.style.color = "#4ade80"; }
+            else if (val.startsWith('+62')) { countryBadge.innerText = "ID 🇮🇩"; countryBadge.style.color = "#4ade80"; }
+            else { countryBadge.innerText = "??"; countryBadge.style.color = "#525252"; }
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if ((phoneInput.value.startsWith('+60') || phoneInput.value.startsWith('+62')) && passInput.value === "MEME2026") {
+                localStorage.setItem('nexus_auth_token', 'true');
+                window.location.href = "index.html";
+            } else {
+                overlay.style.display = 'flex';
+                loginBox.classList.add('vibrate');
+                new Audio('https://www.myinstants.com/media/sounds/vine-boom.mp3').play().catch(()=>{});
+                setTimeout(() => { overlay.style.display = 'none'; loginBox.classList.remove('vibrate'); }, 1500);
+            }
+        });
+
+        // Typewriter Engine for Zharif Eirfan
+function typeEffect(element, text, speed = 50) {
+    let i = 0;
+    element.innerHTML = "";
+    const timer = setInterval(() => {
+        if (i < text.length) {
+            element.append(text.charAt(i));
+            i++;
+        } else {
+            clearInterval(timer);
+        }
+    }, speed);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const title = document.querySelector('h2');
+    const subtitle = document.querySelector('p.text-neutral-600');
+    
+    // Store original text
+    const originalTitle = title.innerText;
+    const originalSub = subtitle.innerText;
+
+    // Execute sequence
+    typeEffect(title, originalTitle, 100);
+    setTimeout(() => {
+        typeEffect(subtitle, originalSub, 50);
+    }, 1200);
+});
+
+// Anti-Trash Right-Click Guard
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    
+    // Create a temporary "No" text at mouse position
+    const msg = document.createElement('div');
+    msg.innerText = "NICE TRY, TRASH. - ZE";
+    msg.style.position = 'fixed';
+    msg.style.left = e.clientX + 'px';
+    msg.style.top = e.clientY + 'px';
+    msg.className = "text-[10px] font-bold text-red-500 bg-black px-2 py-1 rounded border border-red-500 z-[99999] animate-bounce";
+    document.body.appendChild(msg);
+
+    setTimeout(() => msg.remove(), 1000);
+});
+
+if (failCount >= 5) {
+    // Hide the login box permanently for this session
+    loginBox.style.transition = "transform 1s cubic-bezier(0.95, 0.05, 0.795, 0.035)";
+    loginBox.style.transform = "translateY(150vh) rotate(20deg)";
+    
+    setTimeout(() => {
+        document.body.innerHTML = `
+            <div class="flex flex-col items-center justify-center h-screen text-center">
+                <h1 class="text-9xl font-black italic text-neutral-800">L</h1>
+                <p class="text-[10px] tracking-[1em] text-red-600 uppercase mt-4">Security Protocol: You have been blocked by Architect Zharif.</p>
+                <button onclick="location.reload()" class="mt-10 text-[8px] border border-neutral-800 px-4 py-2 hover:bg-white hover:text-black transition">Try again in another life</button>
+            </div>
+        `;
+    }, 1000);
+}
+
+passInput.addEventListener('input', () => {
+    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    passInput.style.borderColor = randomColor;
+    passInput.style.boxShadow = `0 0 15px ${randomColor}33`;
+});
+
+console.log(
+`%c
+███████╗██╗  ██╗ █████╗ ██████╗ ██╗███████╗
+╚══███╔╝██║  ██║██╔══██╗██╔══██╗██║██╔════╝
+  ███╔╝ ███████║███████║██████╔╝██║█████╗  
+ ███╔╝  ██╔══██║██╔══██║██╔══██╗██║██╔══╝  
+███████╗██║  ██║██║  ██║██║  ██║██║██║     
+╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝     
+`, "color: #ff0000; font-weight: bold;");
+
+console.log("%c STOP! This terminal is for Zharif Eirfan only. Accessing this area without a 'MEME' pass is considered trash behavior. ", "background: red; color: white; font-size: 14px; padding: 10px;");
+    </script>
+</body>
+</html>
